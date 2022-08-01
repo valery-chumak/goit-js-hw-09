@@ -9,7 +9,7 @@ const refs = {
     minutesValue: document.querySelector('span[data-minutes]'),
     secondsValue: document.querySelector('span[data-seconds]')
 };
-refs.startButton.disabled = true;
+refs.startButton.setAttribute('disabled', '');
 let intervalId = null;
 const options = {
   enableTime: true,
@@ -21,17 +21,19 @@ const options = {
     refs.startButton.addEventListener('click', onStartButtonClick);
      if (selectedDates[0] < options.defaultDate) {
       Notiflix.Notify.failure("Please choose a date in the future");
-      refs.startButton.disabled = true;
+      refs.startButton.setAttribute('disabled', '');
       return;
     }
-    refs.startButton.disabled = false;
+    refs.startButton.removeAttribute('disabled', '');
     function onStartButtonClick() {
+      refs.startButton.setAttribute('disabled', '');
+      refs.datetimePicker.setAttribute('disabled', '');
       intervalId = setInterval(() => {
         const dateNow = Date.now();
         const selectedDate = selectedDates[0];
         const dateTimer = selectedDate - dateNow;
         let { days, hours, minutes, seconds } = convertMs(dateTimer);
-        if (days == 0 && hours == 0 && minutes == 0 && seconds == 0) {
+        if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
           clearInterval(intervalId);
         }
         days = addLeadingZero(days);
