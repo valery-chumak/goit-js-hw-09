@@ -33,8 +33,9 @@ const options = {
         const selectedDate = selectedDates[0];
         const dateTimer = selectedDate - dateNow;
         let { days, hours, minutes, seconds } = convertMs(dateTimer);
-        if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
+        if (days <= 0 && hours <= 0 && minutes <= 0 && seconds < 0) {
           clearInterval(intervalId);
+          return;
         }
         days = addLeadingZero(days);
         hours = addLeadingZero(hours);
